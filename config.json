@@ -1,0 +1,24 @@
+{
+  "projects": [
+    {
+      "id": "event-hub-317019",
+      "services": [
+        {
+          "name": "hello",
+          "type": "cloud_run_revision",
+          "threshold": 99.95
+        },
+        {
+          "name": "event-hub-317019-datalake",
+          "type": "gcs_bucket",
+          "threshold": 99.9
+        },
+        {
+          "name": "sql-jobs",
+          "type": "bigquery_project",
+          "threshold": 99.99
+        }
+      ]
+    }
+  ]
+}

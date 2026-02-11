@@ -1,0 +1,35 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Use $$ for shell variables to avoid Cloud Build substitution errors
+        PAYLOAD_DATA=$$(cat config.json)
+        
+        JOB_NAME="sla-monitoring-scheduler-job"
+        LOCATION="us-central1"
+        RUN_URL="https://sla-dashboard-service-712620169349.us-central1.run.app/v1/compliance_report"
+        # Note: You need to define SERVICE_ACCOUNT here or pass it as a substitution
+        SERVICE_ACCOUNT="infra-sa@event-hub-317019.iam.gserviceaccount.com"
+
+        echo "Deploying scheduler with payload from payload.json..."
+
+        gcloud scheduler jobs update http $$JOB_NAME \
+          --location=$$LOCATION \
+          --schedule="0 * * * *" \
+          --uri=$$RUN_URL \
+          --http-method=POST \
+          --update-headers="Content-Type=application/json" \
+          --message-body="$$PAYLOAD_DATA" \
+          --oidc-service-account-email=$$SERVICE_ACCOUNT \
+          --oidc-token-audience=$$RUN_URL || \
+        gcloud scheduler jobs create http $$JOB_NAME \
+          --location=$$LOCATION \
+          --schedule="0 0 1 1 *" \
+          --uri=$$RUN_URL \
+          --http-method=POST \
+          --headers="Content-Type=application/json" \
+          --message-body="$$PAYLOAD_DATA" \
+          --oidc-service-account-email=$$SERVICE_ACCOUNT \
+          --oidc-token-audience=$$RUN_URL
