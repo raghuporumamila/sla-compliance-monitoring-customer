@@ -176,17 +176,7 @@ echo -n "YOUR_DOCKER_HUB_PASSWORD" | gcloud secrets create docker-hub-password \
 
 ## Deployment Guide
 
-### Step 1: Build and Push Docker Image
-
-```bash
-# Build the image
-docker build -t raghuporumamilla/rporumamilla:v1.0.0 .
-
-# Push to Docker Hub
-docker push raghuporumamilla/rporumamilla:v1.0.0
-```
-
-### Step 2: Deploy Cloud Run Service
+### Step 1: Deploy Cloud Run Service
 
 ```bash
 # Submit the build
@@ -197,14 +187,14 @@ gcloud builds submit --config=cloudbuild.yml \
   --substitutions=_TAG=v1.0.0,_REGION=us-central1
 ```
 
-### Step 3: Configure Cloud Scheduler
+### Step 2: Configure Cloud Scheduler
 
 ```bash
 # Deploy the scheduler
 gcloud builds submit --config=cloudscheduler-build.yml
 ```
 
-### Step 4: Verify Deployment
+### Step 3: Verify Deployment
 
 ```bash
 # Check Cloud Run service
@@ -352,10 +342,4 @@ For issues or questions:
 
 ---
 
-## License
 
-[Your License Here]
-
-## Contributors
-
-[Your Team/Contributors Here]
