@@ -21,15 +21,17 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
-
+      - '--project'
+      - '$_PROJECT_ID'
 
 substitutions:
   _DOCKER_USER: 'raghuporumamilla'
   _REPO_NAME: 'rporumamilla'
   _TAG: 'v1.0.0'
   _REGION: 'us-central1'
+  _PROJECT_ID: event-hub-317019
 
 availableSecrets:
   secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/docker-hub-password/versions/latest
+    - versionName: projects/$_PROJECT_ID/secrets/docker-hub-password/versions/latest
       env: 'DOCKER_PASSWORD'
