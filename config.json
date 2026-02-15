@@ -4,7 +4,7 @@
       "id": "event-hub-317019",
       "services": [
         {
-          "name": "hello",
+          "name": "sla-dashboard-service",
           "type": "cloud_run_revision",
           "threshold": 99.95
         },
